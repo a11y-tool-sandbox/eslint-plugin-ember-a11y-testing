@@ -24,28 +24,29 @@ Add `ember-a11y-testing` to the plugins section of your `.eslintrc` configuratio
 
 ```json
 {
-    "plugins": [
-        "ember-a11y-testing"
-    ]
+  "plugins": [
+    "ember-a11y-testing"
+  ]
 }
 ```
 
-
-Then configure the rules you want to use under the rules section.
+Or extend the recommended config:
 
 ```json
 {
-    "rules": {
-        "ember-a11y-testing/rule-name": 2
-    }
+  "extends": [
+    "eslint:recommended",
+    "plugin:ember/recommended",
+    "plugin:ember-a11y-testing/recommended"
+  ]
 }
 ```
 
-## Supported Rules
-
-* Fill in provided rules here
-
-
-
-
-
+Or configure the rules you want to use under the rules section. 
+```json
+{
+  "rules": {
+    "ember-a11y-testing/a11y-audit": "error"
+  }
+}
+```
