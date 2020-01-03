@@ -1,11 +1,25 @@
-/* eslint-disable no-undef */
-const rule = require('../rules/use-a11y-audit-after-action');
+"use strict";
+
+/**
+ * @fileoverview Tests for a11y-audit-after-test-helper rule.
+ * @author Chad Carbert <https://github.com/chadian>
+ */
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
+const rule = require('./a11y-audit-after-test-helper');
 const { RuleTester } = require('eslint/lib/rule-tester');
-const ruleTester = new RuleTester();
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
 
 const TEST_FILE_NAME = 'tests/acceptance/application-test.js';
+const ruleTester = new RuleTester();
 
-ruleTester.run('use-a11y-audit-after-action', rule, {
+ruleTester.run('a11y-audit-after-test-helper', rule, {
   valid: [
     // visit
     {
