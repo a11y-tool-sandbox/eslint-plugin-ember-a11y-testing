@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require('./a11y-audit-after-test-helper');
+const rule = require('../../../lib/rules/a11y-audit-after-test-helper');
 const { RuleTester } = require('eslint/lib/rule-tester');
 
 //------------------------------------------------------------------------------
