@@ -71,10 +71,6 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
       filename: TEST_FILE_NAME
     },
     {
-      code: `fillIn(); a11yAudit();`,
-      filename: TEST_FILE_NAME
-    },
-    {
       code: `focus(); a11yAudit();`,
       filename: TEST_FILE_NAME
     },
@@ -147,11 +143,6 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
     },
     {
       code: 'doubleClick();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
-      filename: TEST_FILE_NAME
-    },
-    {
-      code: 'fillIn();',
       errors: [{ messageId: 'a11yAuditAfterAction' }],
       filename: TEST_FILE_NAME
     },
