@@ -91,13 +91,13 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
     // without calling a11yAudit after
     {
       code: 'visit();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     // referencing without calling a11yAudit after
     {
       code: 'visit(); a11yAudit;',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     // without adding a11yAudit after using `include` option
@@ -108,7 +108,7 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
           include: ['myCustom']
         }
       ],
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     // without adding a11yAudit after using `include` option (multiple)
@@ -123,7 +123,7 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
           include: ['myCustom', 'anotherCustom']
         }
       ],
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
 
@@ -133,37 +133,37 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
 
     {
       code: 'blur();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     {
       code: 'click();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     {
       code: 'doubleClick();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     {
       code: 'focus();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     {
       code: 'tap();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     {
       code: 'triggerEvent();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
     {
       code: 'triggerKeyEvent();',
-      errors: [{ messageId: 'a11yAuditAfterAction' }],
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     }
   ]
