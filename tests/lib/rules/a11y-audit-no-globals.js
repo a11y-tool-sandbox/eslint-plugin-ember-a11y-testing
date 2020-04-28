@@ -45,12 +45,14 @@ ruleTester.run('a11y-audit-no-globals', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [{
-        auditModule: {
-          package: 'custom-module',
-          exportName: 'default'
+      settings: {
+        "ember-a11y-testing": {
+          auditModule: {
+            package: 'custom-module',
+            exportName: 'default'
+          }
         }
-      }]
+      }
     }
   ],
   invalid: [
@@ -83,12 +85,14 @@ ruleTester.run('a11y-audit-no-globals', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [{
-        auditModule: {
-          package: 'custom-module',
-          exportName: 'a11yAudit2'
+      settings: {
+        "ember-a11y-testing": {
+          auditModule: {
+            package: 'custom-module',
+            exportName: 'a11yAudit2'
+          }
         }
-      }]
+      }
     },
     {
       code: `import a11yAudit2 from 'ember-a11y-testing/test-support/audit'; a11yAudit();`,
@@ -119,12 +123,14 @@ ruleTester.run('a11y-audit-no-globals', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [{
-        auditModule: {
-          package: 'custom-module',
-          exportName: 'default'
+      settings: {
+        "ember-a11y-testing": {
+          auditModule: {
+            package: 'custom-module',
+            exportName: 'default'
+          }
         }
-      }]
+      }
     },
     {
       code: `import { a11yAudit2 } from 'custom-module'; a11yAudit();`,
@@ -135,12 +141,14 @@ ruleTester.run('a11y-audit-no-globals', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [{
-        auditModule: {
-          package: 'custom-module',
-          exportName: 'a11yAudit2'
+      settings: {
+        "ember-a11y-testing": {
+          auditModule: {
+            package: 'custom-module',
+            exportName: 'a11yAudit2'
+          }
         }
-      }]
+      }
     }
   ]
 });

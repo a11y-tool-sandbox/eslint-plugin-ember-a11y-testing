@@ -44,14 +44,14 @@ ruleTester.run('a11y-audit-no-expression', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [
-        {
+      settings: {
+        "ember-a11y-testing": {
           auditModule: {
             package: 'dashboard/tests/helpers/audit',
             exportName: 'audit'
           }
         }
-      ]
+      }
     },
     // custom module used, default import specifier
     {
@@ -61,14 +61,14 @@ ruleTester.run('a11y-audit-no-expression', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [
-        {
+      settings: {
+        "ember-a11y-testing": {
           auditModule: {
             package: 'dashboard/tests/helpers/audit',
             exportName: 'default'
           }
         }
-      ]
+      }
     },
       // custom module used, default import specifier, but copied to another var
       {
@@ -78,14 +78,14 @@ ruleTester.run('a11y-audit-no-expression', rule, {
           ecmaVersion: '2018',
           sourceType: 'module'
         },
-        options: [
-          {
+        settings: {
+          "ember-a11y-testing": {
             auditModule: {
               package: 'dashboard/tests/helpers/audit',
               exportName: 'default'
             }
           }
-        ]
+        }
       }
   ],
   invalid: [
@@ -157,14 +157,14 @@ ruleTester.run('a11y-audit-no-expression', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [
-        {
+      settings: {
+        "ember-a11y-testing": {
           auditModule: {
             package: 'dashboard/tests/helpers/audit',
             exportName: 'audit'
           }
         }
-      ]
+      }
     },
     // custom module used, default import specifier
     {
@@ -176,14 +176,14 @@ ruleTester.run('a11y-audit-no-expression', rule, {
         ecmaVersion: '2018',
         sourceType: 'module'
       },
-      options: [
-        {
+      settings: {
+        "ember-a11y-testing": {
           auditModule: {
             package: 'dashboard/tests/helpers/audit',
             exportName: 'default'
           }
         }
-      ]
+      }
     }
   ]
 });
