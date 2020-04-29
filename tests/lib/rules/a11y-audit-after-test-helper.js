@@ -85,20 +85,60 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
     {
       code: `triggerKeyEvent(); a11yAudit();`,
       filename: TEST_FILE_NAME
+    },
+    {
+      code: `async function foo() { await triggerKeyEvent(); await a11yAudit(); }`,
+      filename: TEST_FILE_NAME,
+      parserOptions: {
+        ecmaVersion: '2018'
+      }
+    },
+    // for of inside await
+    {
+      code: `async function doStuff() {
+        for (const x of y) {
+          await click(); a11yAudit();
+          await blur(); a11yAudit();
+        }
+      }`,
+      filename: TEST_FILE_NAME,
+      parserOptions: {
+        ecmaVersion: '2019'
+      }
     }
   ],
   invalid: [
-    // without calling a11yAudit after
+    // nested block statements
     {
-      code: 'visit();',
+      code: `async function doStuff() {
+        for await (const x of y) {
+          await fillIn(); await a11yAudit();
+          await blur('[data-test-selector]');
+        }
+      }`,
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `async function doStuff() {
+        for await (const x of y) {
+          await fillIn(); await a11yAudit();
+          await blur('[data-test-selector]'); await a11yAudit();
+        }
+      }`,
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
     },
-    // referencing without calling a11yAudit after
+    // doesn't try to autofix if passed to function
     {
-      code: 'visit(); a11yAudit;',
+      code: `assert.throws(fillIn('foo', 'bar'));`,
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `assert.throws(fillIn('foo', 'bar'));`,
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+      },
     },
     // without adding a11yAudit after using `include` option
     {
@@ -109,7 +149,8 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
         }
       ],
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `myCustom(); a11yAudit();`
     },
     // without adding a11yAudit after using `include` option (multiple)
     {
@@ -123,6 +164,11 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
           include: ['myCustom', 'anotherCustom']
         }
       ],
+      output: `
+        myCustom();
+        a11yAudit();
+
+        anotherCustom(); a11yAudit();`,
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
       filename: TEST_FILE_NAME
     },
@@ -134,37 +180,62 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
     {
       code: 'blur();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `blur(); a11yAudit();`
     },
     {
       code: 'click();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `click(); a11yAudit();`
     },
     {
       code: 'doubleClick();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `doubleClick(); a11yAudit();`
     },
     {
       code: 'focus();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `focus(); a11yAudit();`
     },
     {
       code: 'tap();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `tap(); a11yAudit();`
     },
     {
       code: 'triggerEvent();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `triggerEvent(); a11yAudit();`
     },
     {
       code: 'triggerKeyEvent();',
       errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
+      output: `triggerKeyEvent(); a11yAudit();`
+    },
+    {
+      code: `
+      import a11yTesting24 from "ember-a11y-testing/test-support/audit";
+      async function foo() {
+        await visit();
+      }`,
+      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      filename: TEST_FILE_NAME,
+      output: `
+      import a11yTesting24 from "ember-a11y-testing/test-support/audit";
+      async function foo() {
+        await visit(); await a11yTesting24();
+      }`,
+      parserOptions: {
+        ecmaVersion: '2018',
+        sourceType: 'module'
+      }
     }
   ]
 });
