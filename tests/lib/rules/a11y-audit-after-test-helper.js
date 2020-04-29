@@ -9,39 +9,39 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require('../../../lib/rules/a11y-audit-after-test-helper');
-const { RuleTester } = require('eslint/lib/rule-tester');
+const rule = require("../../../lib/rules/a11y-audit-after-test-helper");
+const { RuleTester } = require("eslint/lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const TEST_FILE_NAME = 'tests/acceptance/application-test.js';
+const TEST_FILE_NAME = "tests/acceptance/application-test.js";
 const ruleTester = new RuleTester();
 
-ruleTester.run('a11y-audit-after-test-helper', rule, {
+ruleTester.run("a11y-audit-after-test-helper", rule, {
   valid: [
     // visit
     {
       code: `visit(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `visit();
       a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
 
     // rule not applicable outside of tests/acceptance folder
     {
       code: `visit();`,
-      filename: 'app/controllers/application.js'
+      filename: "app/controllers/application.js",
     },
 
     // rule not applicable in non-acceptance tests
     {
       code: `visit();`,
-      filename: 'tests/integration/my-test.js'
+      filename: "tests/integration/my-test.js",
     },
 
     // rule not applicable if function is excluded
@@ -50,9 +50,9 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
       filename: TEST_FILE_NAME,
       options: [
         {
-          exclude: ['visit']
-        }
-      ]
+          exclude: ["visit"],
+        },
+      ],
     },
 
     //
@@ -60,38 +60,38 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
     //
     {
       code: `blur(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `click(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `doubleClick(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `focus(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `tap(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `triggerEvent(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `triggerKeyEvent(); a11yAudit();`,
-      filename: TEST_FILE_NAME
+      filename: TEST_FILE_NAME,
     },
     {
       code: `async function foo() { await triggerKeyEvent(); await a11yAudit(); }`,
       filename: TEST_FILE_NAME,
       parserOptions: {
-        ecmaVersion: '2018'
-      }
+        ecmaVersion: "2018",
+      },
     },
     // for of inside await
     {
@@ -103,9 +103,9 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
       }`,
       filename: TEST_FILE_NAME,
       parserOptions: {
-        ecmaVersion: '2019'
-      }
-    }
+        ecmaVersion: "2019",
+      },
+    },
   ],
   invalid: [
     // nested block statements
@@ -116,7 +116,7 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
           await blur('[data-test-selector]');
         }
       }`,
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
       output: `async function doStuff() {
         for await (const x of y) {
@@ -126,31 +126,31 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
       }`,
       parserOptions: {
         ecmaVersion: 2018,
-        sourceType: 'module',
+        sourceType: "module",
       },
     },
     // doesn't try to autofix if passed to function
     {
       code: `assert.throws(fillIn('foo', 'bar'));`,
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
       output: `assert.throws(fillIn('foo', 'bar'));`,
       parserOptions: {
         ecmaVersion: 2018,
-        sourceType: 'module',
+        sourceType: "module",
       },
     },
     // without adding a11yAudit after using `include` option
     {
-      code: 'myCustom();',
+      code: "myCustom();",
       options: [
         {
-          include: ['myCustom']
-        }
+          include: ["myCustom"],
+        },
       ],
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `myCustom(); a11yAudit();`
+      output: `myCustom(); a11yAudit();`,
     },
     // without adding a11yAudit after using `include` option (multiple)
     {
@@ -161,16 +161,16 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
         anotherCustom();`,
       options: [
         {
-          include: ['myCustom', 'anotherCustom']
-        }
+          include: ["myCustom", "anotherCustom"],
+        },
       ],
       output: `
         myCustom();
         a11yAudit();
 
         anotherCustom(); a11yAudit();`,
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
-      filename: TEST_FILE_NAME
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
+      filename: TEST_FILE_NAME,
     },
 
     //
@@ -178,46 +178,46 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
     //
 
     {
-      code: 'blur();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "blur();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `blur(); a11yAudit();`
+      output: `blur(); a11yAudit();`,
     },
     {
-      code: 'click();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "click();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `click(); a11yAudit();`
+      output: `click(); a11yAudit();`,
     },
     {
-      code: 'doubleClick();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "doubleClick();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `doubleClick(); a11yAudit();`
+      output: `doubleClick(); a11yAudit();`,
     },
     {
-      code: 'focus();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "focus();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `focus(); a11yAudit();`
+      output: `focus(); a11yAudit();`,
     },
     {
-      code: 'tap();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "tap();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `tap(); a11yAudit();`
+      output: `tap(); a11yAudit();`,
     },
     {
-      code: 'triggerEvent();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "triggerEvent();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `triggerEvent(); a11yAudit();`
+      output: `triggerEvent(); a11yAudit();`,
     },
     {
-      code: 'triggerKeyEvent();',
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      code: "triggerKeyEvent();",
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
-      output: `triggerKeyEvent(); a11yAudit();`
+      output: `triggerKeyEvent(); a11yAudit();`,
     },
     {
       code: `
@@ -225,7 +225,7 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
       async function foo() {
         await visit();
       }`,
-      errors: [{ messageId: 'a11yAuditAfterHelper' }],
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
       filename: TEST_FILE_NAME,
       output: `
       import a11yTesting24 from "ember-a11y-testing/test-support/audit";
@@ -233,9 +233,9 @@ ruleTester.run('a11y-audit-after-test-helper', rule, {
         await visit(); await a11yTesting24();
       }`,
       parserOptions: {
-        ecmaVersion: '2018',
-        sourceType: 'module'
-      }
-    }
-  ]
+        ecmaVersion: "2018",
+        sourceType: "module",
+      },
+    },
+  ],
 });
