@@ -1,5 +1,7 @@
 # eslint-plugin-ember-a11y-testing
 
+[![CircleCI Build Status](https://circleci.com/gh/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing.svg?style=svg)](https://circleci.com/gh/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing)
+
 ESLint plugin for ember-a11y-testing
 
 ## Installation
