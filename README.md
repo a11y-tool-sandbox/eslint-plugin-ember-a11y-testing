@@ -9,16 +9,17 @@ is called after each call to a helper from [@ember/test-helpers](https://github.
 
 For example, the following code will trigger a linting error:
 
-```javascript
-import { module, test } from 'qunit';
-import { vist, click, setupAcceptanceTest } from '@ember/test-helpers';
-import a11yAudit from 'ember-a11y-testing';
+```js
+import { module, test } from "qunit";
+import { visit, click, setupApplicationTest } from "@ember/test-helpers";
+import a11yAudit from "ember-a11y-testing";
 
-module('visiting the bakery', function(hooks) {
-  test('shows kolaches available', async (assert) {
-    await visit('/bakery');
+module("visiting the bakery", function (hooks) {
+  setupApplicationTest(hooks);
+  test("shows kolaches available", async function (/* assert */) {
+    await visit("/bakery");
     await a11yAudit(); // no lint error here
-    await click('#kolache-button');
+    await click("#kolache-button");
     // oops, forgot to call a11yAudit here. ESLint will raise an error
   });
 });
@@ -96,7 +97,7 @@ Or configure the rules you want to use under the rules section.
 There are a few rules in this plugin to facilitate `eslint --fix`, so we
 recommend you keep all of them on.
 
-### Cofniguring which helpers to assert audit after
+### Configuring which helpers to assert audit after
 
 By default, eslint-plugin-ember-a11y-testing will ensure there is a call to
 `a11yAudit` after this subset of helpers from
@@ -135,7 +136,7 @@ If you want to exclude any of these helpers for any reason, you can configure th
 
 ### Auditing custom helpers
 
-Apps and addons often develop their own helpers for interacting with components. eslint-plugin-ember-a11y-testing can audit those as well by specifying them in the `modules` setting. For example, if you a custom helper exported at `confirm` from the `tests/helpers/confirm` module, and the name of your app (as specified in `name` in package.json at the root of your project) is 'myapp':
+Apps and addons often develop their own helpers for interacting with components. eslint-plugin-ember-a11y-testing can audit those as well by specifying them in the `modules` setting. For example, if you have a custom helper exported at `confirm` from the `tests/helpers/confirm` module, and the name of your app (as specified in `name` in package.json at the root of your project) is 'myapp':
 
 ```json
 {
@@ -154,13 +155,14 @@ Apps and addons often develop their own helpers for interacting with components.
 
 This will result in the following code trigger a linting error (and can also be autofixed if you have `eslint --fix` enabled):
 
-```
-import { confirm } from 'myapp/tests/helpers';
+<!-- global module, setupApplicationTest, test, visit -->
+```js
+import { confirm } from "myapp/tests/helpers";
 
-module('my acceptance test', function(hooks) {
+module("my acceptance test", function (hooks) {
   setupApplicationTest(hooks);
-  test('user can confirm thing', function(assert) => {
-    await visit('/seize-the-means-of-production');
+  test("user can confirm thing", async function (/*assert*/) {
+    await visit("/seize-the-means-of-production");
     await confirm('[data-test-selector="confirm-button"]');
     // eslint will indicate an error here until away `a11yAudit` is added.
   });
@@ -173,8 +175,9 @@ By default, `eslint-plugin-ember-a11y-testing` expects you to define imports
 for `a11yAudit` in your tests as listed on the [ember-a11y-testing
 README](https://github.com/ember-a11y/ember-a11y-testing#acceptance-tests):
 
-```javascript
-import a11yAudit from 'ember-a11y-testing/test-support/audit';
+<!-- eslint-disable no-unused-vars -->
+```js
+import a11yAudit from "ember-a11y-testing/test-support/audit";
 ```
 
 However, sometimes it's handy to combine `a11yAudit` with your own setup
@@ -195,14 +198,14 @@ code, or keep configuration for aXe in one place. In that case, you can tell
 }
 ```
 
-```javascript
+```js
 // your module defined at tests/helpers/audit.js
-import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import a11yAudit from "ember-a11y-testing/test-support/audit";
 
 export default async function audit() {
   const axeOptions = {
     // redacted for brevity
-  }
+  };
   await a11yAudit(axeOptions);
 }
 ```
@@ -210,6 +213,7 @@ export default async function audit() {
 `eslint-plugin-ember-a11y-testing` will then expect you to import from that
 module like so:
 
-```javascript
-import a11yAudit from 'my-app/tests/helpers/audit';
+<!-- eslint-disable no-unused-vars -->
+```js
+import a11yAudit from "my-app/tests/helpers/audit";
 ```

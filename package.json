@@ -10,7 +10,8 @@
   "author": "Jamie White",
   "main": "lib/index.js",
   "scripts": {
-    "test": "eslint . && mocha tests --recursive"
+    "lint:fix": "eslint --ext js,js --fix .",
+    "test": "eslint --ext js,md . && mocha tests --recursive"
   },
   "dependencies": {
     "requireindex": "~1.1.0"
@@ -18,6 +19,7 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-markdown": "^1.0.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-yaml": "^0.1.3",
