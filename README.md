@@ -2,10 +2,10 @@
 
 [![CircleCI Build Status](https://circleci.com/gh/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing.svg?style=svg)](https://circleci.com/gh/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing)
 
-ESLint plugin for ember-a11y-testing. This plugin adds some rules to ensure
-that `a11yAudit` from
-[https://github.com/ember-a11y/ember-a11y-testing](https://github.com/ember-a11y/ember-a11y-testing)
-is called after each call to a helper from [@ember/test-helpers](https://github.com/emberjs/ember-test-helpers/blob/master/API.md).
+An ESLint plugin which provides some rules to ensure that `a11yAudit` from
+[ember-a11y-testing](https://github.com/ember-a11y/ember-a11y-testing) is
+called after each call to a helper from
+[@ember/test-helpers](https://github.com/emberjs/ember-test-helpers/blob/master/API.md).
 
 For example, the following code will trigger a linting error:
 
@@ -32,7 +32,7 @@ auditing your tests with [aXe](https://github.com/dequelabs/axe-core) through
 
 ## Installation
 
-You'll first need to install [ESLint](http://eslint.org):
+You'll first need to install [ESLint](http://eslint.org) if it's not already installed in your project:
 
 ```
 $ npm i eslint --save-dev
@@ -58,9 +58,19 @@ $ yarn add --dev eslint-plugin-ember-a11y-testing
 
 **Note:** If you installed ESLint globally (using the `-g` flag with `npm`, or `yarn global` with yarn) then you must also install `eslint-plugin-ember-a11y-testing` globally.
 
-## Usage
+It's recommended to extend eslint-plugin-ember-a11y-testing's config by
+adding it to the `extends` configuration option in your `.eslintrc.js` or
+`.eslintrc.json` configuration file:
 
-Add `ember-a11y-testing` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+```json
+{
+  "extends": [
+    "plugin:ember-a11y-testing/recommended"
+  ]
+}
+```
+
+Otherwise, you can import the plugin:
 
 ```json
 {
@@ -70,19 +80,7 @@ Add `ember-a11y-testing` to the plugins section of your `.eslintrc` configuratio
 }
 ```
 
-Or extend the recommended config:
-
-```json
-{
-  "extends": [
-    "eslint:recommended",
-    "plugin:ember/recommended",
-    "plugin:ember-a11y-testing/recommended"
-  ]
-}
-```
-
-Or configure the rules you want to use under the rules section.
+And configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
@@ -97,7 +95,90 @@ Or configure the rules you want to use under the rules section.
 There are a few rules in this plugin to facilitate `eslint --fix`, so we
 recommend you keep all of them on.
 
-### Configuring which helpers to assert audit after
+## Examples
+
+### Rule: ember-a11y-testing/a11y-audit-after-test-helper
+
+Ensures that `a11yAudit` (or your custom helper function, see "Using a Custom Audit Module" below) is called after test helpers such as `visit` or `click`.
+
+Not Allowed:
+
+<!-- global test, click -->
+```js
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+});
+```
+
+Allowed:
+
+<!-- global test, click -->
+```js
+import a11yAudit from "ember-a11y-testing/test-support/audit";
+
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+  await a11yAudit();
+});
+```
+
+### Rule: ember-a11y-testing/a11y-audit-no-expression
+
+Ensures that `a11yAudit` is actually called instead of just referenced in a test.
+
+Not Allowed:
+
+<!-- global test, click -->
+```js
+import a11yAudit from "ember-a11y-testing/test-support/audit";
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+  a11yAudit;
+});
+```
+
+Allowed:
+
+<!-- global test, click -->
+```js
+import a11yAudit from "ember-a11y-testing/test-support/audit";
+
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+  await a11yAudit();
+});
+```
+
+### Rule: ember-a11y-testing/a11y-audit-no-globals
+
+Ensures that `a11yAudit` is imported instead of called as a global variable. This allows us to autofix the import if one isn't already present in the test.
+
+Not Allowed:
+
+<!-- global test, click, a11yAudit -->
+```js
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+  // no import up above, so ESLint will report an error here.
+  a11yAudit();
+});
+```
+
+Allowed:
+
+<!-- global test, click -->
+```js
+import a11yAudit from "ember-a11y-testing/test-support/audit";
+
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+  await a11yAudit();
+});
+```
+
+## Configuration
+
+### Choosing which helpers to assert audit after
 
 By default, eslint-plugin-ember-a11y-testing will ensure there is a call to
 `a11yAudit` after this subset of helpers from
@@ -211,9 +292,33 @@ export default async function audit() {
 ```
 
 `eslint-plugin-ember-a11y-testing` will then expect you to import from that
-module like so:
+module in your test like so:
 
 <!-- eslint-disable no-unused-vars -->
 ```js
 import a11yAudit from "my-app/tests/helpers/audit";
+```
+
+To use a named import, you can change `exportName` to the name of the export:
+
+```json
+{
+  "plugins": ["ember-a11y-testing"],
+  "settings": {
+    "ember-a11y-testing": {
+      "auditModule": {
+        "package": "my-app/tests/helpers/audit",
+        "exportName": "myAuditFn"
+      }
+    }
+  }
+}
+```
+
+`eslint-plugin-ember-a11y-testing` will then expect you to import from that
+module in your test like so:
+
+<!-- eslint-disable no-unused-vars -->
+```js
+import { myAuditFn } from "my-app/tests/helpers/audit";
 ```

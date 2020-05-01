@@ -10,7 +10,7 @@
   "author": "Jamie White",
   "main": "lib/index.js",
   "scripts": {
-    "lint:fix": "eslint --ext js,js --fix .",
+    "lint:fix": "eslint --ext js,md --fix .",
     "test": "eslint --ext js,md . && mocha tests --recursive"
   },
   "dependencies": {
