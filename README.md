@@ -322,3 +322,26 @@ module in your test like so:
 ```js
 import { myAuditFn } from "my-app/tests/helpers/audit";
 ```
+
+### Only linting certain types of tests
+
+If you have an existing codebase, it can often be more manageable to start
+linting segments of the codebase at a time. For example, maybe you only want
+to lint acceptance tests.
+
+You can use ESLint's `overrides` field in your ESLint `.eslintrc.json` config file to accomplish this:
+
+```json
+{
+  "overrides": [
+    {
+      "files": ["tests/acceptance/**/*.js"],
+      "extends": ["plugin:ember-a11y-testing/recommended"]
+    }
+  ]
+}
+```
+
+You can find more information and examples (such as disabling for a certain
+group of files, instead of enabling) on [ESLint's documentation page about
+configuration](https://eslint.org/docs/user-guide/configuring#disabling-rules-only-for-a-group-of-files).

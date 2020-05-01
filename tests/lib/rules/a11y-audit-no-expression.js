@@ -17,7 +17,6 @@ const { RuleTester } = require("eslint/lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const TEST_FILE_NAME = "tests/acceptance/application-test.js";
 const ruleTester = new RuleTester();
 
 ruleTester.run("a11y-audit-no-expression", rule, {
@@ -25,12 +24,10 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     // visit
     {
       code: `visit(); a11yAudit();`,
-      filename: TEST_FILE_NAME,
     },
     // import alias works
     {
       code: `import a11yAudit2 from 'ember-a11y-testing/ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit2; })`,
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -40,7 +37,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     {
       code:
         'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -58,7 +54,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     {
       code:
         'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -76,7 +71,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     {
       code:
         'import audit from "dashboard/tests/helpers/audit"; const audit2 = audit; (async () => { while(true) { visit(); await audit2(); } })();',
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -95,7 +89,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     // import aliases work
     {
       code: `import a11yAudit24 from 'ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit24; })()`,
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -106,7 +99,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     },
     {
       code: `import a11yAudit24 from 'ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit24; })()`,
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -119,7 +111,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     {
       code: "visit(); a11yAudit;",
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
-      filename: TEST_FILE_NAME,
       output: "visit(); a11yAudit();",
     },
     // async function
@@ -127,7 +118,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       code: "(async function () { visit(); a11yAudit; })();",
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output: "(async function () { visit(); await a11yAudit(); })();",
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
       },
@@ -138,7 +128,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         "(async function () { while(true) { visit(); await a11yAudit(); } })();",
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
       },
@@ -149,7 +138,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         "(async () => { while(true) { visit(); await a11yAudit(); } })();",
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
       },
@@ -161,7 +149,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
@@ -182,7 +169,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      filename: TEST_FILE_NAME,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
