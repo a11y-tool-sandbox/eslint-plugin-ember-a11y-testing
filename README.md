@@ -12,7 +12,7 @@ For example, the following code will trigger a linting error:
 ```js
 import { module, test } from "qunit";
 import { visit, click, setupApplicationTest } from "@ember/test-helpers";
-import a11yAudit from "ember-a11y-testing";
+import a11yAudit from "ember-a11y-testing/test-support/audit";
 
 module("visiting the bakery", function (hooks) {
   setupApplicationTest(hooks);
