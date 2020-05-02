@@ -124,7 +124,7 @@ test("my test", async function (/*assert*/) {
 
 ### Rule: ember-a11y-testing/a11y-audit-no-expression
 
-Ensures that `a11yAudit` is actually called instead of just referenced in a test.
+Ensures that `a11yAudit` is actually called instead of just referenced in a test. This can help prevent false positives when the audit isn't actually ran.
 
 Not Allowed:
 
