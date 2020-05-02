@@ -245,7 +245,7 @@ module("my acceptance test", function (hooks) {
   test("user can confirm thing", async function (/*assert*/) {
     await visit("/seize-the-means-of-production");
     await confirm('[data-test-selector="confirm-button"]');
-    // eslint will indicate an error here until away `a11yAudit` is added.
+    // eslint will indicate an error here until `await a11yAudit()` is added.
   });
 });
 ```
