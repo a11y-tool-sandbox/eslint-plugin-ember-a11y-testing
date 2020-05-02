@@ -184,17 +184,17 @@ By default, eslint-plugin-ember-a11y-testing will ensure there is a call to
 `a11yAudit` after this subset of helpers from
 [@ember/test-helpers](https://github.com/emberjs/ember-test-helpers/blob/master/API.md):
 
-- `visit`
 - `blur`
 - `click`
 - `doubleClick`
 - `fillIn`
 - `focus`
+- `render`
 - `tap`
 - `triggerEvent`
 - `triggerKeyEvent`
 - `typeIn`
-- `render`
+- `visit`
 
 If you want to exclude any of these helpers for any reason, you can configure the `a11y-audit-after-test-helper` plugin as follows:
 
