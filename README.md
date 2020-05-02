@@ -217,7 +217,12 @@ If you want to exclude any of these helpers for any reason, you can configure th
 
 ### Auditing custom helpers
 
-Apps and addons often develop their own helpers for interacting with components. eslint-plugin-ember-a11y-testing can audit those as well by specifying them in the `modules` setting. For example, if you have a custom helper exported at `confirm` from the `tests/helpers/confirm` module, and the name of your app (as specified in `name` in package.json at the root of your project) is 'myapp':
+Apps and addons often develop their own helpers for interacting with
+components. eslint-plugin-ember-a11y-testing can audit those as well by
+specifying them in the `modules` setting. For example, if you have a custom
+helper exported at `confirm` from the `tests/helpers` module, and the
+name of your app (as specified in `name` in package.json at the root of your
+project) is 'myapp':
 
 ```json
 {
