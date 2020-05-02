@@ -195,13 +195,13 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
     // using custom helper with ember test helpers
     {
       code: `
-            import { myCustom, anotherCustom } from 'custom';
-            import { click } from '@ember/test-helpers';
-            myCustom();
-            a11yAudit();
-            click();
+        import { myCustom, anotherCustom } from 'custom';
+        import { click } from '@ember/test-helpers';
+        myCustom();
+        a11yAudit();
+        click();
 
-            anotherCustom();`,
+        anotherCustom();`,
       settings: {
         "ember-a11y-testing": {
           modules: {
@@ -212,17 +212,36 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
         },
       },
       output: `
-            import { myCustom, anotherCustom } from 'custom';
-            import { click } from '@ember/test-helpers';
-            myCustom();
-            a11yAudit();
-            click(); a11yAudit();
+        import { myCustom, anotherCustom } from 'custom';
+        import { click } from '@ember/test-helpers';
+        myCustom();
+        a11yAudit();
+        click(); a11yAudit();
 
-            anotherCustom(); a11yAudit();`,
+        anotherCustom(); a11yAudit();`,
       errors: [
         { messageId: "a11yAuditAfterHelper" },
         { messageId: "a11yAuditAfterHelper" },
       ],
+    },
+    // using custom helper (default import)
+    {
+      code: `
+        import myCustom from 'custom';
+        myCustom();`,
+      settings: {
+        "ember-a11y-testing": {
+          modules: {
+            custom: {
+              include: ["default"],
+            },
+          },
+        },
+      },
+      output: `
+        import myCustom from 'custom';
+        myCustom(); a11yAudit();`,
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
     },
 
     //
