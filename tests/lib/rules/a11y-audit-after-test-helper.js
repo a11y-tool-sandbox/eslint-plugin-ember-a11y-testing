@@ -110,6 +110,16 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
         }
       }`,
     },
+    // when helper is a11yAudit is returndd
+    {
+      code: code`
+      import { click } from '@ember/test-helpers';
+      import a11yAudit from 'ember-a11y-audit/test-support/audit';
+      async function doStuff() {
+        await click('.the-btn');
+        return a11yAudit();
+      }`,
+    },
   ],
   invalid: [
     // returning a helper
