@@ -64,7 +64,7 @@ ruleTester.run("a11y-audit-no-globals", rule, {
     {
       code: `/* existing import with comments */\nimport Blah from 'blah';\nimport Foo from 'foo'; a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobals" }],
-      output: `/* existing import with comments */\nimport Blah from 'blah';\nimport Foo from 'foo';\nimport a11yAudit from 'ember-a11y-testing/test-support/audit';\n a11yAudit();`,
+      output: `/* existing import with comments */\nimport Blah from 'blah';\nimport Foo from 'foo';\nimport a11yAudit from 'ember-a11y-testing/test-support/audit'; a11yAudit();`,
       parserOptions: {
         ecmaVersion: "2018",
         sourceType: "module",
