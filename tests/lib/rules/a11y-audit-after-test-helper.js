@@ -110,6 +110,18 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
     },
   ],
   invalid: [
+    // returning a helper
+    {
+      code: `import { fillIn } from "@ember/test-helpers";
+            async function doStuff() {
+              return fillIn('#hi');
+            }`,
+      errors: [{ messageId: "a11yAuditAfterHelper" }],
+      output: `import { fillIn } from "@ember/test-helpers";
+            async function doStuff() {
+              await fillIn('#hi'); return a11yAudit();
+            }`,
+    },
     // nested block statements
     {
       code: `import { blur, fillIn } from "@ember/test-helpers";
