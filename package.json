@@ -17,6 +17,7 @@
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
+    "common-tags": "^1.8.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-markdown": "^1.0.2",
