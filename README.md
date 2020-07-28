@@ -122,6 +122,31 @@ test("my test", async function (/*assert*/) {
 });
 ```
 
+### Rule: ember-a11y-testing/a11y-audit-called
+
+Ensures that `a11yAudit` is called at least once in a file.
+
+Not Allowed:
+
+<!-- global test, click -->
+```js
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+});
+```
+
+Allowed:
+
+<!-- global test, click -->
+```js
+import a11yAudit from "ember-a11y-testing/test-support/audit";
+
+test("my test", async function (/*assert*/) {
+  await click(".the-buttton");
+  await a11yAudit();
+});
+```
+
 ### Rule: ember-a11y-testing/a11y-audit-no-expression
 
 Ensures that `a11yAudit` is actually called instead of just referenced in a test. This can help prevent false positives when the audit isn't actually ran.
