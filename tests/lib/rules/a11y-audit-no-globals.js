@@ -1,8 +1,7 @@
 "use strict";
 
 /**
- * @fileoverview Tests that `a11yAudit` is called as a function. Prevents accidentally comitting code like
- * `a11yAudit` (no parens, so the audit doens't actually run)
+ * @fileoverview Tests that `a11yAudit` is imported from the desired package.
  * @author Stanley Stuart <https://github.com/fivetanley>
  */
 
