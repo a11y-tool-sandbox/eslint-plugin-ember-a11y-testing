@@ -84,7 +84,6 @@ And configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
-    "ember-a11y-testing/a11y-audit": "error",
     "ember-a11y-testing/a11y-audit-after-test-helper": "error",
     "ember-a11y-testing/a11y-audit-no-expression": "error",
     "ember-a11y-testing/a11y-audit-no-globals": "error",
