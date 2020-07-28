@@ -8,6 +8,10 @@
     "eslint-plugin"
   ],
   "author": "Jamie White",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing.git"
+  },
   "main": "lib/index.js",
   "scripts": {
     "lint:fix": "eslint --ext js,md --fix .",
@@ -26,7 +30,8 @@
     "eslint-plugin-yaml": "^0.1.3",
     "mocha": "^6.0.0",
     "mocha-junit-reporter": "^1.23.3",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "semantic-release": "^17.1.1"
   },
   "engines": {
     "node": ">= 8.3.0"
@@ -36,5 +41,10 @@
     "README.md",
     "lib/**/*.js",
     "package.json"
-  ]
+  ],
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
 }
