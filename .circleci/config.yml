@@ -48,8 +48,8 @@ workflows:
     build-and-test:
       jobs:
         - test:
-            node_version: "10"
-        - test:
             node_version: "12"
         - test:
             node_version: "14"
+        - test:
+            node_version: "16"
