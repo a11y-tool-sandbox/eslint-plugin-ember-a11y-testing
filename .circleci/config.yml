@@ -12,15 +12,19 @@ commands:
       - restore_cache:
           # Restore branch-specific cache if it exists
           key: dependency-cache-{{ .Branch }}-{{ checksum ".dependencychecksum" }}
-      - run: yarn --frozen-lockfile
+      - run: yarn --immutable
       - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum ".dependencychecksum" }}
           paths:
             - ./node_modules
+            - ./yarn/cache
+            - ./yarn/unplugged
       - save_cache: # special step to save the dependency cache for branch-specific version
           key: dependency-cache-{{ .Branch }}-{{ checksum ".dependencychecksum" }}
           paths:
             - ./node_modules
+            - ./yarn/cache
+            - ./yarn/unplugged
       - run:
           command: yarn test
           environment:
