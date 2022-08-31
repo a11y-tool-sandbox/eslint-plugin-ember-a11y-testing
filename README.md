@@ -2,6 +2,15 @@
 
 [![CircleCI Build Status](https://circleci.com/gh/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing.svg?style=svg)](https://circleci.com/gh/a11y-tool-sandbox/eslint-plugin-ember-a11y-testing)
 
+> **Warning**
+>
+> You may not need this plugin!
+>
+> Recent versions of ember-a11y-testing support
+> [`setupGlobalA11yHooks`](https://github.com/ember-a11y/ember-a11y-testing#setupglobala11yhooks-usage)
+> which automatically performs audits, removing the need for explicit `await
+> a11yAudit()` calls and, consequently, this plugin.
+
 An ESLint plugin which provides some rules to ensure that `a11yAudit` from
 [ember-a11y-testing](https://github.com/ember-a11y/ember-a11y-testing) is
 called after each call to a helper from
