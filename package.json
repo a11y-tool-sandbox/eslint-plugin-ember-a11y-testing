@@ -36,5 +36,6 @@
     "README.md",
     "lib/**/*.js",
     "package.json"
-  ]
+  ],
+  "packageManager": "yarn@3.2.3"
 }
