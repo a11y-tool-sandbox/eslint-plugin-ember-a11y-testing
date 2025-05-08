@@ -25,25 +25,13 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-    - name: Cache yarn dependencies
-      uses: actions/cache@v3
-      with:
-        path: |
-          ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          node_modules
-          yarn/cache
-          yarn/unplugged
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+        cache: 'yarn'
 
     - name: Install dependencies
       run: yarn --immutable
+
+    - name: Create junit directory
+      run: mkdir -p ./junit
 
     - name: Run tests
       run: yarn test
@@ -51,8 +39,8 @@ jobs:
         MOCHA_FILE: ./junit/test-results.xml
 
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: test-results
+        name: test-results-node-${{ matrix.node-version }}
         path: ./junit 
