@@ -9,37 +9,30 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/a11y-audit-no-globals");
-const { RuleTester } = require("eslint/lib/rule-tester");
+import { RuleTester } from "eslint";
+import rule from "../../../lib/rules/a11y-audit-no-globals.js";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+});
 
 ruleTester.run("a11y-audit-no-globals", rule, {
   valid: [
     {
       code: `import a11yAudit from 'ember-a11y-testing/test-support/audit'; a11yAudit();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
     },
     {
       code: `import a11yAudit2 from 'ember-a11y-testing/test-support/audit'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
     },
     {
       code: `import a11yAudit2 from 'custom-module'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -55,28 +48,16 @@ ruleTester.run("a11y-audit-no-globals", rule, {
       code: `a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobals" }],
       output: `import a11yAudit from 'ember-a11y-testing/test-support/audit';\na11yAudit();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
     },
     {
       code: `/* existing import with comments */\nimport Blah from 'blah';\nimport Foo from 'foo'; a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobals" }],
       output: `/* existing import with comments */\nimport Blah from 'blah';\nimport Foo from 'foo';\nimport a11yAudit from 'ember-a11y-testing/test-support/audit'; a11yAudit();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
     },
     {
       code: `a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobals" }],
       output: `import { a11yAudit2 as a11yAudit } from 'custom-module';\na11yAudit();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -90,28 +71,11 @@ ruleTester.run("a11y-audit-no-globals", rule, {
       code: `import a11yAudit2 from 'ember-a11y-testing/test-support/audit'; a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobalsUseImportName" }],
       output: `import a11yAudit2 from 'ember-a11y-testing/test-support/audit'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
-    },
-    {
-      code: `import a11yAudit2 from 'ember-a11y-testing/test-support/audit'; a11yAudit();`,
-      errors: [{ messageId: "a11yAuditNoGlobalsUseImportName" }],
-      output: `import a11yAudit2 from 'ember-a11y-testing/test-support/audit'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
     },
     {
       code: `import a11yAudit2 from 'custom-module'; a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobalsUseImportName" }],
       output: `import a11yAudit2 from 'custom-module'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -125,10 +89,6 @@ ruleTester.run("a11y-audit-no-globals", rule, {
       code: `import { a11yAudit2 } from 'custom-module'; a11yAudit();`,
       errors: [{ messageId: "a11yAuditNoGlobalsUseImportName" }],
       output: `import { a11yAudit2 } from 'custom-module'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {

@@ -9,46 +9,23 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/a11y-audit-after-test-helper");
-const { RuleTester } = require("eslint/lib/rule-tester");
-const { stripIndents: code } = require("common-tags");
+import { RuleTester } from "eslint";
+import rule from "../../../lib/rules/a11y-audit-after-test-helper.js";
+import { stripIndents as code } from "common-tags";
 
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+});
 
-function runWithModernSyntax(testName, rule, options) {
-  const makeTestModern = (testCase) => {
-    const defaultParserOptions = {
-      parserOptions: {
-        ecmaVersion: 2018,
-        sourceType: "module",
-      },
-    };
-    return {
-      ...defaultParserOptions,
-      ...testCase,
-    };
-  };
-  const validCases = (options.valid || []).map(makeTestModern);
-  const invalidCases = (options.invalid || []).map(makeTestModern);
-  return ruleTester.run(testName, rule, {
-    ...options,
-    valid: validCases,
-    invalid: invalidCases,
-  });
-}
-
-runWithModernSyntax("a11y-audit-after-test-helper", rule, {
+ruleTester.run("a11y-audit-after-test-helper", rule, {
   valid: [
     // visit
-    {
-      code: code`
-      import { visit } from '@ember/test-helpers';
-      visit();
-      a11yAudit();`,
-    },
     {
       code: code`
       import { visit } from '@ember/test-helpers';
@@ -110,7 +87,7 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
         }
       }`,
     },
-    // when helper is a11yAudit is returndd
+    // when helper is a11yAudit is returned
     {
       code: code`
       import { click } from '@ember/test-helpers';
@@ -179,9 +156,9 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
     },
     // doesn't try to autofix if passed to function
     {
-      code: code`import { fillIn } from "@ember/test-helpers"; assert.throws(fillIn('foo', 'bar'));`,
+      code: "import { fillIn } from \"@ember/test-helpers\"; assert.throws(fillIn('foo', 'bar'));",
       errors: [{ messageId: "a11yAuditAfterHelper" }],
-      output: code`import { fillIn } from "@ember/test-helpers"; assert.throws(fillIn('foo', 'bar'));`,
+      output: null,
     },
     // without adding a11yAudit after using `include` option
     {
@@ -312,15 +289,13 @@ runWithModernSyntax("a11y-audit-after-test-helper", rule, {
       output: 'import { tap } from "@ember/test-helpers"; tap();\na11yAudit();',
     },
     {
-      code:
-        'import { triggerEvent } from "@ember/test-helpers"; triggerEvent();',
+      code: 'import { triggerEvent } from "@ember/test-helpers"; triggerEvent();',
       errors: [{ messageId: "a11yAuditAfterHelper" }],
       output:
         'import { triggerEvent } from "@ember/test-helpers"; triggerEvent();\na11yAudit();',
     },
     {
-      code:
-        'import { triggerKeyEvent } from "@ember/test-helpers"; triggerKeyEvent();',
+      code: 'import { triggerKeyEvent } from "@ember/test-helpers"; triggerKeyEvent();',
       errors: [{ messageId: "a11yAuditAfterHelper" }],
       output:
         'import { triggerKeyEvent } from "@ember/test-helpers"; triggerKeyEvent();\na11yAudit();',
