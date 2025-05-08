@@ -45,13 +45,16 @@ jobs:
     - name: Install dependencies
       run: yarn --immutable
 
+    - name: Create junit directory
+      run: mkdir -p ./junit
+
     - name: Run tests
       run: yarn test
       env:
         MOCHA_FILE: ./junit/test-results.xml
 
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results
