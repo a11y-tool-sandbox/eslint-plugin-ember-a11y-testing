@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 import { RuleTester } from "eslint";
-import rule from "../../../lib/rules/a11y-audit-no-expression.js";
+import rule from "../../../lib/rules/a11y-audit-no-expression.mjs";
 
 //------------------------------------------------------------------------------
 // Tests

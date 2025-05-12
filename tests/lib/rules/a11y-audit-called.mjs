@@ -2,7 +2,7 @@
 
 /**
  * @fileoverview Tests for a11y-audit-called rule.
- * @author Buck Doyle <https://github.com/backspace>
+ * @author Chad Carbert <https://github.com/chadian>
  */
 
 //------------------------------------------------------------------------------
@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 import { RuleTester } from "eslint";
-import rule from "../../../lib/rules/a11y-audit-called.js";
+import rule from "../../../lib/rules/a11y-audit-called.mjs";
 import { stripIndents as code } from "common-tags";
 
 // Tests

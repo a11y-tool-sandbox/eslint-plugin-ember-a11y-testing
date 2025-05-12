@@ -9,10 +9,10 @@
   ],
   "author": "Jamie White",
   "type": "module",
-  "main": "lib/index.js",
+  "main": "lib/index.mjs",
   "exports": {
-    ".": "./lib/index.js",
-    "./recommended": "./lib/configs/recommended.js"
+    ".": "./lib/index.mjs",
+    "./recommended": "./lib/recommended.mjs"
   },
   "scripts": {
     "lint": "eslint --config eslint.config.mjs .",
@@ -39,6 +39,8 @@
   "files": [
     "README.md",
     "lib/**/*.js",
+    "lib/**/*.mjs",
+    "recommended.mjs",
     "package.json"
   ],
   "packageManager": "yarn@3.2.3"

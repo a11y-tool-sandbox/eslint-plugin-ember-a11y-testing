@@ -95,7 +95,6 @@ export default [
 Or use the recommended configuration:
 
 ```js
-import emberA11yTesting from 'eslint-plugin-ember-a11y-testing';
 import recommended from 'eslint-plugin-ember-a11y-testing/recommended';
 
 export default [
