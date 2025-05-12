@@ -67,9 +67,45 @@ $ yarn add --dev eslint-plugin-ember-a11y-testing
 
 **Note:** If you installed ESLint globally (using the `-g` flag with `npm`, or `yarn global` with yarn) then you must also install `eslint-plugin-ember-a11y-testing` globally.
 
-It's recommended to extend eslint-plugin-ember-a11y-testing's config by
-adding it to the `extends` configuration option in your `.eslintrc.js` or
-`.eslintrc.json` configuration file:
+## ESLint Version Compatibility
+
+This plugin supports both modern ESLint 9+ flat config and legacy ESLint configuration styles.
+
+### ESLint 9+ (Flat Config)
+
+For ESLint 9 and above, use the flat config style in your `eslint.config.mjs`:
+
+```js
+import emberA11yTesting from 'eslint-plugin-ember-a11y-testing';
+
+export default [
+  {
+    plugins: {
+      'ember-a11y-testing': emberA11yTesting
+    },
+    rules: {
+      'ember-a11y-testing/a11y-audit-after-test-helper': 'error',
+      'ember-a11y-testing/a11y-audit-no-expression': 'error',
+      'ember-a11y-testing/a11y-audit-no-globals': 'error'
+    }
+  }
+];
+```
+
+Or use the recommended configuration:
+
+```js
+import emberA11yTesting from 'eslint-plugin-ember-a11y-testing';
+import recommended from 'eslint-plugin-ember-a11y-testing/recommended';
+
+export default [
+  recommended
+];
+```
+
+### Legacy ESLint (Pre-9)
+
+For ESLint versions before 9, use the traditional configuration style in `.eslintrc.js` or `.eslintrc.json`:
 
 ```json
 {
@@ -79,23 +115,17 @@ adding it to the `extends` configuration option in your `.eslintrc.js` or
 }
 ```
 
-Otherwise, you can import the plugin:
+Or configure manually:
 
 ```json
 {
   "plugins": [
     "ember-a11y-testing"
-  ]
-}
-```
-
-And configure the rules you want to use under the rules section.
-```json
-{
+  ],
   "rules": {
     "ember-a11y-testing/a11y-audit-after-test-helper": "error",
     "ember-a11y-testing/a11y-audit-no-expression": "error",
-    "ember-a11y-testing/a11y-audit-no-globals": "error",
+    "ember-a11y-testing/a11y-audit-no-globals": "error"
   }
 }
 ```
