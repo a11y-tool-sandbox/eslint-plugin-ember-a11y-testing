@@ -10,14 +10,19 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/a11y-audit-no-expression");
-const { RuleTester } = require("eslint/lib/rule-tester");
+import { RuleTester } from "eslint";
+import rule from "../../../lib/rules/a11y-audit-no-expression.mjs";
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+});
 
 ruleTester.run("a11y-audit-no-expression", rule, {
   valid: [
@@ -28,19 +33,10 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     // import alias works
     {
       code: `import a11yAudit2 from 'ember-a11y-testing/ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit2; })`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
     },
     // custom module used
     {
-      code:
-        'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
+      code: 'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -52,12 +48,7 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     },
     // custom module used, default import specifier
     {
-      code:
-        'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
+      code: 'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -69,12 +60,7 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     },
     // custom module used, default import specifier, but copied to another var
     {
-      code:
-        'import audit from "dashboard/tests/helpers/audit"; const audit2 = audit; (async () => { while(true) { visit(); await audit2(); } })();',
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
+      code: 'import audit from "dashboard/tests/helpers/audit"; const audit2 = audit; (async () => { while(true) { visit(); await audit2(); } })();',
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -89,20 +75,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     // import aliases work
     {
       code: `import a11yAudit24 from 'ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit24; })()`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
-      errors: [{ messageId: "a11yAuditMustBeCalled" }],
-      output:
-        "import a11yAudit24 from 'ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit24(); })()",
-    },
-    {
-      code: `import a11yAudit24 from 'ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit24; })()`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         "import a11yAudit24 from 'ember-a11y-testing/test-support/audit'; (async () => { visit(); await a11yAudit24(); })()",
@@ -118,9 +90,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       code: "(async function () { visit(); a11yAudit; })();",
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output: "(async function () { visit(); await a11yAudit(); })();",
-      parserOptions: {
-        ecmaVersion: "2018",
-      },
     },
     // async function with block statements
     {
@@ -128,9 +97,6 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         "(async function () { while(true) { visit(); await a11yAudit(); } })();",
-      parserOptions: {
-        ecmaVersion: "2018",
-      },
     },
     // async arrow function
     {
@@ -138,21 +104,13 @@ ruleTester.run("a11y-audit-no-expression", rule, {
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         "(async () => { while(true) { visit(); await a11yAudit(); } })();",
-      parserOptions: {
-        ecmaVersion: "2018",
-      },
     },
     // custom module used
     {
-      code:
-        'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); audit; } })();',
+      code: 'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); audit; } })();',
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         'import { audit } from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {
@@ -164,15 +122,10 @@ ruleTester.run("a11y-audit-no-expression", rule, {
     },
     // custom module used, default import specifier
     {
-      code:
-        'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); audit; } })();',
+      code: 'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); audit; } })();',
       errors: [{ messageId: "a11yAuditMustBeCalled" }],
       output:
         'import audit from "dashboard/tests/helpers/audit"; (async () => { while(true) { visit(); await audit(); } })();',
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {

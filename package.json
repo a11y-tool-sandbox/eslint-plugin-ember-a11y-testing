@@ -8,33 +8,39 @@
     "eslint-plugin"
   ],
   "author": "Jamie White",
-  "main": "lib/index.js",
-  "scripts": {
-    "lint:fix": "eslint --ext js,md --fix .",
-    "test": "eslint --ext js,md . && mocha tests --recursive"
+  "type": "module",
+  "main": "lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./recommended": "./lib/recommended.mjs"
   },
-  "dependencies": {
-    "requireindex": "~1.1.0"
+  "scripts": {
+    "lint": "eslint --config eslint.config.mjs .",
+    "lint:fix": "eslint --config eslint.config.mjs --fix .",
+    "test": "mocha --config .mocharc.cjs tests --recursive"
   },
   "devDependencies": {
-    "common-tags": "^1.8.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-markdown": "^1.0.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-yaml": "^0.1.3",
-    "mocha": "^6.0.0",
-    "mocha-junit-reporter": "^1.23.3",
-    "prettier": "^2.0.5"
+    "@eslint/js": "^9.23.0",
+    "@eslint/markdown": "^6.4.0",
+    "common-tags": "^1.8.2",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-prettier": "^5.4.0",
+    "globals": "^14.0.0",
+    "mocha": "^10.3.0",
+    "mocha-junit-reporter": "^2.2.1",
+    "prettier": "^3.2.5"
   },
   "engines": {
-    "node": ">= 8.3.0"
+    "node": ">=18.18.0 || >=20"
   },
   "license": "ISC",
   "files": [
     "README.md",
     "lib/**/*.js",
+    "lib/**/*.mjs",
+    "recommended.mjs",
     "package.json"
   ],
   "packageManager": "yarn@3.2.3"

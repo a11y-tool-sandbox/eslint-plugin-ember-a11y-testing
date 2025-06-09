@@ -2,45 +2,28 @@
 
 /**
  * @fileoverview Tests for a11y-audit-called rule.
- * @author Buck Doyle <https://github.com/backspace>
+ * @author Chad Carbert <https://github.com/chadian>
  */
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/a11y-audit-called");
-const { RuleTester } = require("eslint/lib/rule-tester");
-const { stripIndents: code } = require("common-tags");
+import { RuleTester } from "eslint";
+import rule from "../../../lib/rules/a11y-audit-called.mjs";
+import { stripIndents as code } from "common-tags";
 
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({
+  languageOptions: {
+    ecmaVersion: 2018,
+    sourceType: "module",
+  },
+});
 
-function runWithModernSyntax(testName, rule, options) {
-  const makeTestModern = (testCase) => {
-    const defaultParserOptions = {
-      parserOptions: {
-        ecmaVersion: 2018,
-        sourceType: "module",
-      },
-    };
-    return {
-      ...defaultParserOptions,
-      ...testCase,
-    };
-  };
-  const validCases = (options.valid || []).map(makeTestModern);
-  const invalidCases = (options.invalid || []).map(makeTestModern);
-  return ruleTester.run(testName, rule, {
-    ...options,
-    valid: validCases,
-    invalid: invalidCases,
-  });
-}
-
-runWithModernSyntax("a11y-audit-called", rule, {
+ruleTester.run("a11y-audit-called", rule, {
   valid: [
     {
       code: code`import a11yAudit from 'ember-a11y-testing/test-support/audit';
@@ -61,10 +44,6 @@ runWithModernSyntax("a11y-audit-called", rule, {
     },
     {
       code: `import a11yAudit2 from 'custom-module'; a11yAudit2();`,
-      parserOptions: {
-        ecmaVersion: "2018",
-        sourceType: "module",
-      },
       settings: {
         "ember-a11y-testing": {
           auditModule: {
